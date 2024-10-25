@@ -1,3 +1,4 @@
+# 
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 featureGates:
@@ -16,9 +17,10 @@ nodes:
   - |
     kind: ClusterConfiguration
     apiServer:
-        extraArgs:
-            api-audiences: "kubernetes.svc.default"
-            service-account-api-audiences: "cluster.identifier.kubernetes.domain"
-            service-account-issuer: "https://S3_BUCKET_NAME_PLACEHOLDER.s3.us-east-1.amazonaws.com/cluster/my-oidc-cluster"
-            service-account-jwks-uri: "https://S3_BUCKET_NAME_PLACEHOLDER.s3.us-east-1.amazonaws.com/cluster/my-oidc-cluster/openid/v1/jwks"
-            service-account-signing-key-file: "/etc/kubernetes/pki/sa.key"
+      extraArgs:
+        api-audiences: "kubernetes.svc.default"
+        service-account-api-audiences: "cluster.identifier.kubernetes.domain"
+        service-account-issuer: "https://CLOUDFRONT_DOMAIN_NAME_PLACEHOLDER/cluster/my-oidc-cluster"
+        service-account-jwks-uri: "https://CLOUDFRONT_DOMAIN_NAME_PLACEHOLDER/cluster/my-oidc-cluster/openid/v1/jwks"
+        service-account-signing-key-file: "/etc/kubernetes/pki/sa.key"
+        

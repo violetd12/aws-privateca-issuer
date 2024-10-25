@@ -71,8 +71,6 @@ delete_ca() {
 clean_up() {
     set +e
 
-    echo "Cleaning up test resources"
-
     kubectl delete -f $E2E_DIR/blog-test/test-nlb-tls-app.yaml >/dev/null 2>&1
 
     kubectl delete -f $E2E_DIR/blog-test/nlb-lab-tls.yaml >/dev/null 2>&1
@@ -82,6 +80,7 @@ clean_up() {
     helm uninstall aws-load-balancer-controller -n kube-system >/dev/null 2>&1
 
     delete_ca
+
 }
 
 install_aws_load_balancer() {
@@ -135,17 +134,14 @@ main() {
 
     timeout 30s bash -c 'until kubectl get service/nlb-tls-app --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done' 1>/dev/null || exit 1
 
-    echo "Creating target groups"
-    
     create_target_group
-
-    echo "Waiting for target groups"
 
     timeout 600s bash -c 'until echo | openssl s_client -connect $LOAD_BALANCER_HOSTNAME:$PORT; do : ; done' || exit 1
 
     echo "Blog Test Finished Successfully"
-}
 
-trap clean_up EXIT
+    clean_up
+
+}
 
 main
