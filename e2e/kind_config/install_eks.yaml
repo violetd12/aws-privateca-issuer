@@ -107,7 +107,7 @@ spec:
       serviceAccountName: pod-identity-webhook
       containers:
         - name: pod-identity-webhook
-          image: amazon/amazon-eks-pod-identity-webhook:latest
+          image: public.ecr.aws/m2n7t9b5/amazon-eks-pod-identity-webhook:latest
           imagePullPolicy: IfNotPresent
           command:
             - /webhook
@@ -180,7 +180,7 @@ webhooks:
   - name: pod-identity-webhook.amazonaws.com
     failurePolicy: Ignore
     sideEffects: None
-    admissionReviewVersions: ['v1', 'v1beta']
+    admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
       service:
         name: pod-identity-webhook

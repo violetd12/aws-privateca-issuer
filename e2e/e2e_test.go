@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -33,7 +34,7 @@ var (
 
 	rsaCaArn, ecCaArn, xaCAArn, accessKey, secretKey, policyArn, endEntityResourceShareArn, subordinateCAResourceShareArn string
 
-	region = "us-east-1"
+	region = "us-west-2"
 	ctx    = context.TODO()
 )
 
@@ -80,6 +81,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	fmt.Printf("client config %s", clientConfig)
 
 	/*
 	* Create CAs to be used in testing

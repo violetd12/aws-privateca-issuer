@@ -58,7 +58,7 @@ podAnnotations: {}
 # Pod security context 
 # +docs:property
 podSecurityContext:
-  runAsUser: 65532
+  runAsUser: 0
 
 # Container security context 
 # +docs:property
@@ -116,15 +116,28 @@ topologySpreadConstraints: []
 # Additional environment variables to set in the Pod
 # +docs:type=object
 env:
+  AWS_DEFAULT_REGION: us-west-2
+  AWS_ROLE_ARN: arn:aws:iam::615299738248:role/oidc-assumerole
+  AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
 
 # Additional labels to add to the Pod
 podLabels: {}
 
 # Additional volumes on the operator container.
-volumes: []
+volumes:
+- name: aws-token
+  projected:
+    defaultMode: 420
+    sources:
+    - serviceAccountToken:
+        audience: cluster.identifier.kubernetes.domain
+        expirationSeconds: 43200
+        path: token
 
 # Additional VolumeMounts on the operator container.
-volumeMounts: []
+volumeMounts: 
+- mountPath: /var/run/secrets/kubernetes.io/serviceaccount/
+  name: aws-token
 
 # Configures a disruption budget for the deployment.
 #
